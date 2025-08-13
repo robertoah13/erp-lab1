@@ -1,0 +1,74 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Cliente {
+  id        Int      @id @default(autoincrement())
+  nome      String
+  telefone  String? 
+  email     String? @unique
+  endereco  String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  ordens    Ordem[]
+}
+
+model Dentista {
+  id        Int      @id @default(autoincrement())
+  nome      String
+  cro       String? @unique
+  telefone  String?
+  email     String?
+  clinica   String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  ordens    Ordem[]
+}
+
+model Paciente {
+  id        Int      @id @default(autoincrement())
+  nome      String
+  dataNascimento DateTime?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  ordens    Ordem[]
+}
+
+model TipoPeca {
+  id        Int      @id @default(autoincrement())
+  nome      String
+  descricao String?
+  precoBase Decimal   @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  ordens    Ordem[]
+}
+
+model Ordem {
+  id           Int          @id @default(autoincrement())
+  codigo       String       @unique
+  dataEntrada  DateTime     @default(now())
+  dataPrevista DateTime?
+  dataEntrega  DateTime?
+  status       String       @default("entrada")
+  valorTotal   Decimal      @default(0)
+  observacoes  String?
+
+  clienteId    Int
+  dentistaId   Int
+  pacienteId   Int
+  tipoPecaId   Int
+
+  cliente      Cliente      @relation(fields: [clienteId], references: [id])
+  dentista     Dentista     @relation(fields: [dentistaId], references: [id])
+  paciente     Paciente     @relation(fields: [pacienteId], references: [id])
+  tipoPeca     TipoPeca     @relation(fields: [tipoPecaId], references: [id])
+
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+}
