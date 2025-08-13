@@ -11,7 +11,7 @@ Aplicação Next.js com Prisma + SQLite para gestão de ordens de laboratório.
 ## Setup
 
 - Instale dependências: `npm i`.
-- Arquivo `.env` já incluído com `DATABASE_URL="file:./prisma/dev.db"`.
+- Crie um arquivo `.env` com `DATABASE_URL="file:./prisma/dev.db"`.
   - O banco SQLite é local, em `prisma/dev.db` (criado no primeiro `db:push`).
 
 ## Comandos
@@ -64,3 +64,11 @@ Aplicação Next.js com Prisma + SQLite para gestão de ordens de laboratório.
   - Modal `Nova Ordem`/`Editar Ordem`:
     - Decide entre POST (criar) e PATCH (editar) automaticamente.
     - Dispara toasts de sucesso/erro nas ações de criação, edição e exclusão.
+
+## Deploy na Vercel
+
+1. Instale a CLI: `npm i -g vercel` (ou use `npx vercel`).
+2. Vincule o projeto: `vercel link`.
+3. Defina as variáveis de ambiente em "Project Settings":
+   - `DATABASE_URL` (ex.: `file:./prisma/dev.db`).
+4. Faça o deploy: `vercel --prod`.
